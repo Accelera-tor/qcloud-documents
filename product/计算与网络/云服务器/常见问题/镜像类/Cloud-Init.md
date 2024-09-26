@@ -16,23 +16,23 @@ Cloud-Init 是一个开源工具，运行在云服务器实例内部的一个非
 
 
 1. 删除 cloud-init 缓存目录。
-```
+```shellsession
 rm -rf /var/lib/cloud
 ```
 2. 执行完整的 cloud-init 初始化。
-```
+```shellsession
 /usr/bin/cloud-init init --local
 ```
 3. 根据配置的数据源拉取数据。
-```
+```shellsession
 /usr/bin/cloud-init init
 ```
 4. Cloud-Init 初始化分为多个 stage，为保证各个 stage 的依赖充分，cloud-init modules 指定运行 config stage。
-```
+```shellsession
 /usr/bin/cloud-init modules --mode=config
 ```
 5. cloud-init modules 指定运行 final stage。
-```
+```shellsession
 /usr/bin/cloud-init modules --mode=final
 ```
 
@@ -181,9 +181,9 @@ pkg_resources.DistributionNotFound: pyyaml
 - 问题现象：
 在开机启动执行 Cloud-Init 时报错。
 - 问题分析：
-安装 Cloud-Init 时，Python 解释默认使用 Python2（即 `/usr/bin/python` 与 `/bin/python` 这两个软连链向 Python2）。当用户业务有需要时，可能会在实例内部把 Python 的默认解释器改为 Python3（即修改 `/usr/bin/python` 与 `/bin/python` 这两个软连，使其指向 Python3）。由于兼容性问题，导致在开机启动执行 Cloud-Init 时报错。
+安装 Cloud-Init 时，Python 解释器默认使用 Python2（即 `/usr/bin/python` 与 `/bin/python` 这两个软链接指向 Python2）。当用户业务有需要时，可能会在实例内部把 Python 的默认解释器改为 Python3（即修改 `/usr/bin/python` 与 `/bin/python` 这两个软链接，使其指向 Python3）。由于兼容性问题，导致在开机启动执行 Cloud-Init 时报错。
 - 解决方案：
- 1. 修改 `/usr/bin/cloud-init` 文件中指定的 Python 解释器，将 `#/usr/bin/python`或`#/bin/python` 修改为 `#! user/bin/python`。
+ 1. 以 Python2.7为例，修改 `/usr/bin/cloud-init` 文件中指定的 Python 解释器，将 `#!/usr/bin/python` 或 `#!/bin/python` 修改为 `#!/usr/bin/python2.7`。
 <dx-alert infotype="notice" title="">
 不要使用软连接，直接指向具体的解释器。
 </dx-alert>
@@ -193,6 +193,7 @@ pkg_resources.DistributionNotFound: pyyaml
 
 ### 什么是 Cloudbase-Init？
 与 Cloud-Init 相似，Cloudbase-Init 是与 Windows 云服务器实例通信的桥梁。 在实例首次启动的时候会执行 Cloudbase-Init 服务，该服务会读取出实例的初始化配置信息，并对实例进行初始化操作。同时包括后续的重置密码、修改 IP 等功能也都是通过 Cloudbase-Init 来实现的。
+
 
 ### 如何确认 Windows 实例内部的 Cloudbase-Init 服务是否正常运行？
 
@@ -215,6 +216,11 @@ pkg_resources.DistributionNotFound: pyyaml
 ![](https://main.qcloudimg.com/raw/4f98965fa228c7f948fc8d720424a7ea.png)
  - 确认 CD-ROM 的加载是否被禁用。如下图所示，可以看到一个光驱设备，则表示正常加载；否则是被禁用了，需要取消禁用。
 ![](https://main.qcloudimg.com/raw/0e8c68537e238fe7a1e4b718848b9e98.png)
+
+### 如何查看 Cloudbase-Init 执行日志？
+您可对应操作系统，查看以下日志文件：
+- Linux 系统：`/var/log/cloud-init-output.log`
+- Windows 系统：`C:\Program Files\Cloudbase Solutions\Cloudbase-Init\log\cloudbase-init.log`
 
 ### 如何排查 Cloudbase-Init 常见问题？
 #### 初始化重置密码失败

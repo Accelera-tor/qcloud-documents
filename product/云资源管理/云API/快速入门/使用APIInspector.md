@@ -20,8 +20,8 @@ API Inspector 与 API Explorer 共同成为腾讯云 API 用户学习和调试 A
 ### 开启 API Inspector 功能
 请按照以下步骤，开启 API Inspector 功能：
 1. 登录 [云服务器控制台](https://console.cloud.tencent.com/cvm/instance/index?rid=1)。      
-2. 选择页面上方的 <img src="https://main.qcloudimg.com/raw/4d7384619e988df262e740e376ed047c.png" style="margin:-4px 0px"> > **API**，即可开启 API Inspector 功能。如下图所示：
-![](https://main.qcloudimg.com/raw/d64d1c72c6150f03763d55cf84e90ec6.png)      
+2. 选择页面上方的**工具** > **API**，即可开启 API Inspector 功能。如下图所示：
+![](https://qcloudimg.tencent-cloud.cn/raw/59f0ebe2fb3780363f4a2760bcbab67e.png)     
 
 ### 自动录制 API 调用[](id:AutomaticRecordingAPI)
 本文以修改实例名称为例，介绍 API Inspector 的自动录制功能：
@@ -80,7 +80,7 @@ API Inspector 与 API Explorer 共同成为腾讯云 API 用户学习和调试 A
 <tr>
 <tr>
 <td>行业应用</td>
-<td>智聆口语评测、金融联络机器人、数学作业批改、游戏联机对战引擎、英文作文批改、正版曲库直通车、企业收付平台、游戏服务器伸缩、互动白板、正版图库直通车、政务联络机器人、招生通</td>
+<td>智聆口语评测、金融联络机器人、数学作业批改、游戏联机对战引擎、英文作文批改、正版曲库直通车、企业收付平台、游戏服务器伸缩、互动白板、政务联络机器人、招生通</td>
 </tr>
 <td>开发者服务</td>
 <td>云监控、云拨测、访问管理、云审计、标签、应用与服务编排工作流、云顾问</td>

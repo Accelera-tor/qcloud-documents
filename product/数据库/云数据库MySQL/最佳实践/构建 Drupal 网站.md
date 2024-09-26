@@ -1,4 +1,3 @@
-
 Drupal 是使用 PHP 语言编写的开源内容管理框架（Content Management Framework），它由内容管理系统（Content Management System）和 PHP  开发框架（Framework）共同构成。Drupal 可用于构造提供多种功能和服务的动态网站，能支持从个人博客到大型社区等各种不同应用的网站项目。
 您可以通过本教程了解如何在腾讯云服务器上搭建 Drupal 电子商务网站。
 使用的软件环境为：CentOS7.2、Drupal7.56、PHP5.4.16。
@@ -16,6 +15,8 @@ yum install mariadb-server mariadb -y
 systemctl start mariadb
 ```
 3. 为 Drupal 创建数据库。（本项目中使用 drupal 作为数据库名）
+>?默认密码为空。
+>
 ```
 mysqladmin -u root -p create drupal
 ```
@@ -93,8 +94,8 @@ service httpd restart
 8. 设置数据库，输入您在**安装 mariadb 服务**中配置的数据库信息。
 ![](https://main.qcloudimg.com/raw/3bcd676f2d0bb91a23b80589d89ea576.png)
 9. 输入站点信息。
- ![](//mc.qcloudimg.com/static/img/c124ba56012c3a3bd8023a65cdb87b52/image.png)
+![](https://qcloudimg.tencent-cloud.cn/raw/bd72445a809c8d22042d75ef973b0c86.png)
 10. 完成 Drupal 的安装。
-![](//mc.qcloudimg.com/static/img/ed4795e8c6cb3183c56aeb8e18ef5d4a/image.png)
+![](https://qcloudimg.tencent-cloud.cn/raw/732626d0523ecb133f92f9038a7318a5.png)
 11. 后续可以访问 `http://115.xxx.xxx.xxx/`（其中 `115.xxx.xxx.xxx`为您的云服务器公网 IP 地址）对网站进行个性化设置。
 ![](https://main.qcloudimg.com/raw/6e73b18ffe3be7936e220d005b252719.png)

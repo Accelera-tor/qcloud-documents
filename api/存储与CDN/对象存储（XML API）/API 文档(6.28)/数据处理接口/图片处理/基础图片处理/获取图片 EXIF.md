@@ -1,16 +1,33 @@
 ## 功能概述
-EXIF（Exchangeable Image File）全称为可交换图像文件，可记录数码照片的拍摄参数、缩略图及其他属性信息。对象存储通过数据万象的 **exif** 接口获取 EXIF 信息。处理图片原图大小不超过32MB、宽高不超过30000像素且总像素不超过2.5亿像素，处理结果图宽高设置不超过9999像素；针对动图，原图宽 x 高 x 帧数不超过2.5亿像素。
-
+EXIF（Exchangeable Image File）全称为可交换图像文件，可记录数码照片的拍摄参数、缩略图及其他属性信息。对象存储通过数据万象的 **exif** 接口获取 EXIF 信息。
 >!
 > - 图片处理功能为收费项，由数据万象收取，详细的计费说明请参见数据万象 [图片处理费用](https://cloud.tencent.com/document/product/460/58117)。
 > - 如图片无 exif 信息，将返回`{"error" : "no exif data"}`。
 > 
 
+
+## 限制说明
+
+- 支持格式：支持处理 JPG、BMP、GIF、PNG、WebP 格式，并且支持 HEIF 格式的解码和处理操作。
+- 静图体积限制：处理图片原图大小不超过32MB、宽高不超过50000像素且总像素不超过2.5亿像素，处理结果图宽高设置不超过50000像素。
+- WebP图片限制：处理图片原图大小不超过32MB、宽高不超过16383像素且总像素不超过2.5亿像素，处理结果图宽高设置不超过16383像素。
+- 动图体积限制：原图及处理图宽 x 高 x 帧数不超过2.5亿像素。
+- 动图帧数限制：gif 帧数限300帧。
+
+
 ## 接口示例
 
 ```plaintext
-download_url?exif
+GET /<ObjectKey>?exif HTTP/1.1
+Host: <BucketName-APPID>.cos.<Region>.myqcloud.com
+Date: <GMT Date>
+Authorization: <Auth String>
 ```
+
+>? 
+> - Authorization: Auth String（详情请参见 [请求签名](https://cloud.tencent.com/document/product/436/7778) 文档）。
+> - 通过子账号使用时，需要授予相关的权限，详情请参见 [授权粒度详情](https://cloud.tencent.com/document/product/460/41741) 文档。
+> 
 
 ## 处理参数说明
 
@@ -18,7 +35,7 @@ download_url?exif
 
 | 参数         | 含义                                                         |
 | ------------ | ------------------------------------------------------------ |
-| download_url | 文件的访问链接，具体构成为&lt;BucketName-APPID>.cos.&lt;Region>.myqcloud.com/&lt;picture name>，<br>例如 `examplebucket-1250000000.cos.ap-shanghai.myqcloud.com/picture.jpeg`。 |
+| ObjectKey  | 对象文件名，例如 folder/sample.jpg。                           | 
 
 
 ## 实际案例

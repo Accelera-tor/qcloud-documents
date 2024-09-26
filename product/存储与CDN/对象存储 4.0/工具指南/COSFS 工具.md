@@ -6,8 +6,9 @@ COSFS 工具支持将对象存储（Cloud Object Storage，COS）存储桶挂载
 - MD5 数据校验功能。
 - 将本机数据上传至 COS，建议使用 [COS Migration 工具](https://cloud.tencent.com/document/product/436/15392) 或 [COSCMD 工具](https://cloud.tencent.com/document/product/436/10976)。
 
+
 ## 局限性
-**COSFS 基于 S3FS 构建， 读取和写入操作都经过磁盘中转，仅适合挂载后对文件进行简单的管理，不支持本地文件系统的一些功能用法，性能方面也无法代替云硬盘 CBS 或文件存储 CFS。** 需注意以下不适用的场景，例如：
+COSFS 基于 S3FS 构建，读取和写入操作都经过磁盘中转，仅适合挂载后对文件进行简单的管理，不支持本地 POSIX 协议文件系统的一些功能用法。COSFS 的使用，需注意以下不适用的场景，例如：
 
 - 随机或者追加写文件会导致整个文件的下载以及重新上传，您可以使用与 Bucket 在同一个地域的 CVM 加速文件的上传下载。
 - 多个客户端挂载同一个 COS 存储桶时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等。
@@ -15,6 +16,12 @@ COSFS 工具支持将对象存储（Cloud Object Storage，COS）存储桶挂载
 - 元数据操作，例如 list directory，性能较差，因为需要远程访问 COS 服务器。
 - 不支持 hard link，不适合高并发读/写的场景。
 - 不可以同时在一个挂载点上挂载、和卸载文件。您可以先使用 cd 命令切换到其他目录，再对挂载点进行挂载、卸载操作。
+- 服务器的定期扫盘任务，可能导致 COSFS 占用较高的 CPU，发起大量 Head、List 请求，产生较多请求费用，详情请参见 [常见问题](#faq)。
+
+相比于 COSFS，更建议您使用以下工具：
+- [GooseFS-Lite 工具](https://cloud.tencent.com/document/product/1424/73687) 访问 COS，GooseFS-Lite 是一个轻量级单机 COS Fuse 工具，具有更好的读写性能和稳定性。
+- [腾讯云存储网关](https://cloud.tencent.com/product/csg)：您也可以选择使用腾讯云存储网关访问 COS，腾讯云存储网关可以将 COS 存储桶，以网络文件系统挂载到多个服务器上，用户可以使用 POSIX 文件协议，通过挂载点读写 COS 上的对象。
+- 使用 Winfsp + Git + Rclone 工具，将 COS 挂载为本地磁盘，详情请参见 [将 COS 作为本地磁盘挂载到 Windows 服务器](https://cloud.tencent.com/document/product/436/55241)。
 
 ## 使用环境
 支持主流的 Ubuntu、CentOS、SUSE、macOS 系统。
@@ -30,20 +37,27 @@ COSFS 主要提供两种安装方式：通过安装包方式安装和通过编�
 
 #### Ubuntu 系统
 
-1. 根据系统版本选择对应的安装包，目前支持的 Ubuntu 发行版包括 Ubuntu14.04、Ubuntu16.04、Ubuntu18.04、Ubuntu20.04。
+1. 根据系统版本选择对应的安装包，目前支持的 Ubuntu 发行版包括 Ubuntu14.04、Ubuntu16.04、Ubuntu18.04、 Ubuntu20.04。
+Github下载地址：
 ```plaintext
 #Ubuntu14.04
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs_1.0.19-ubuntu14.04_amd64.deb
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.20/cosfs_1.0.21-ubuntu14.04_amd64.deb
 #Ubuntu16.04
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs_1.0.19-ubuntu16.04_amd64.deb
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.20/cosfs_1.0.21-ubuntu16.04_amd64.deb
 #Ubuntu18.04
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs_1.0.19-ubuntu18.04_amd64.deb
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.20/cosfs_1.0.21-ubuntu18.04_amd64.deb
 #Ubuntu20.04
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs_1.0.19-ubuntu20.04_amd64.deb
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.20/cosfs_1.0.21-ubuntu20.04_amd64.deb
 ```
+CDN 下载地址：
+[cosfs_1.0.20-ubuntu14.04_amd64.deb](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.20/cosfs_1.0.21-ubuntu14.04_amd64.deb)
+[cosfs_1.0.20-ubuntu16.04_amd64.deb](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.20/cosfs_1.0.21-ubuntu16.04_amd64.deb)
+[cosfs_1.0.20-ubuntu18.04_amd64.deb](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.20/cosfs_1.0.21-ubuntu18.04_amd64.deb)
+[cosfs_1.0.20-ubuntu20.04_amd64.deb](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.20/cosfs_1.0.21-ubuntu20.04_amd64.deb)
+
 2. 安装。以 Ubuntu16.04 为例：
 ```shell
-sudo dpkg -i cosfs_1.0.19-ubuntu16.04_amd64.deb
+sudo dpkg -i cosfs_1.0.20-ubuntu16.04_amd64.deb
 ```
 
 #### CentOS 系统
@@ -53,17 +67,21 @@ sudo dpkg -i cosfs_1.0.19-ubuntu16.04_amd64.deb
 sudo yum install libxml2-devel libcurl-devel -y
 ```
 2. 根据系统版本选择对应的安装包，目前支持的 CentOS 发行版包括 CentOS6.5、CentOS7.0。
+Github下载地址：
 ```plaintext
 #CentOS6.5
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs-1.0.19-centos6.5.x86_64.rpm
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.21/cosfs-1.0.20-centos6.5.x86_64.rpm
 #CentOS7.0
-wget https://github.com/tencentyun/cosfs/releases/download/v1.0.19/cosfs-1.0.19-centos7.0.x86_64.rpm
+sudo wget https://github.com/tencentyun/cosfs/releases/download/v1.0.21/cosfs-1.0.20-centos7.0.x86_64.rpm
 ```
+CDN下载地址：
+[cosfs-1.0.20-centos6.5.x86_64.rpm](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.21/cosfs-1.0.20-centos6.5.x86_64.rpm)
+[cosfs-1.0.20-centos7.0.x86_64.rpm](https://cos-sdk-archive-1253960454.file.myqcloud.com/cosfs/v1.0.21/cosfs-1.0.20-centos7.0.x86_64.rpm)
 3. 安装。以 CentOS7.0为例：
 ```shell
-sudo rpm -ivh cosfs-1.0.19-centos7.0.x86_64.rpm
+sudo rpm -ivh cosfs-1.0.20-centos7.0.x86_64.rpm
 ```
->? 如果安装时报错，提示`conflicts with file from package fuse-libs-*`，则加`--force`参数再次安装。
+>? 如果安装时报错，提示 `conflicts with file from package fuse-libs-*`，则加 `--force` 参数再次安装。
 >
 
 ### 方式二：通过编译源码方式安装
@@ -95,9 +113,9 @@ brew install cask osxfuse
 
 #### 2. 获取源码 
 
-您需要从 GitHub 上将 [COSFS 源码](https://github.com/tencentyun/cosfs) 下载到指定目录，下面以目录`/usr/cosfs`为例（实际操作下，建议您根据具体操作环境选择目录）：
+您需要从 GitHub 上将 [COSFS 源码](https://github.com/tencentyun/cosfs) 下载到指定目录，下面以目录 `/usr/cosfs` 为例（实际操作下，建议您根据具体操作环境选择目录）：
 ```shell
-git clone https://github.com/tencentyun/cosfs /usr/cosfs
+sudo git clone https://github.com/tencentyun/cosfs /usr/cosfs
 ```
 
 
@@ -105,9 +123,9 @@ git clone https://github.com/tencentyun/cosfs /usr/cosfs
 进入安装目录，执行如下命令进行编译和安装：
 ```shell
 cd /usr/cosfs
-./autogen.sh
-./configure
-make
+sudo ./autogen.sh
+sudo ./configure
+sudo make
 sudo make install
 cosfs --version  #查看 cosfs 版本号
 ```
@@ -121,13 +139,13 @@ checking for common_lib_checking... configure: error: Package requirements (fuse
 ```
 此时，您需要手动安装 fuse 2.8.4及以上版本，安装命令示例如下：
 ```shell
-yum -y remove fuse-devel
-wget https://github.com/libfuse/libfuse/releases/download/fuse_2_9_4/fuse-2.9.4.tar.gz
+sudo yum -y remove fuse-devel
+sudo wget https://github.com/libfuse/libfuse/releases/download/fuse_2_9_4/fuse-2.9.4.tar.gz
 tar -zxvf fuse-2.9.4.tar.gz
 cd fuse-2.9.4
-./configure
-make
-make install
+sudo ./configure
+sudo make
+sudo make install
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig/:/usr/local/lib/pkgconfig
 modprobe fuse   #挂载 fuse 内核模块
 echo "/usr/local/lib" >> /etc/ld.so.conf
@@ -139,12 +157,12 @@ pkg-config --modversion fuse  #查看 fuse 版本号，当看到 “2.9.4” 时
 >
 ```shell
 zypper remove fuse libfuse2
-wget https://github.com/libfuse/libfuse/releases/download/fuse_2_9_4/fuse-2.9.4.tar.gz
+sudo wget https://github.com/libfuse/libfuse/releases/download/fuse_2_9_4/fuse-2.9.4.tar.gz
 tar -zxvf fuse-2.9.4.tar.gz
 cd fuse-2.9.4
-./configure
-make 
-make install
+sudo ./configure
+sudo make 
+sudo make install
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig/:/usr/local/lib/pkgconfig
 modprobe fuse   #挂载 fuse 内核模块
 echo "/usr/local/lib" >> /etc/ld.so.conf
@@ -166,7 +184,7 @@ export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig #您可能需要根�
 ## 使用方法
 
 ### 1. 配置密钥文件
-在文件`/etc/passwd-cosfs`中，写入您的存储桶名称（格式为 BucketName-APPID），以及该存储桶对应的 &lt;SecretId&gt; 和 &lt;SecretKey&gt;，三项之间使用半角冒号隔开。为了防止密钥泄露，COSFS 要求您将密钥文件的权限值设置为640，配置`/etc/passwd-cosfs`密钥文件的命令格式如下：
+在文件 `/etc/passwd-cosfs` 中，写入您的存储桶名称（格式为 BucketName-APPID），以及该存储桶对应的 &lt;SecretId&gt; 和 &lt;SecretKey&gt;，三项之间使用半角冒号隔开。为了防止密钥泄露，COSFS 要求您将密钥文件的权限值设置为640，配置 `/etc/passwd-cosfs` 密钥文件的命令格式如下：
 ```shell
 sudo su  # 切换到 root 身份，以修改 /etc/passwd-cosfs 文件；如果已经为 root 用户，无需执行该条命令。
 echo <BucketName-APPID>:<SecretId>:<SecretKey> > /etc/passwd-cosfs
@@ -175,7 +193,7 @@ chmod 640 /etc/passwd-cosfs
 
 >? 您需要将 &lt;&gt; 的参数替换为您的信息。
 > - &lt;BucketName-APPID&gt;为存储桶名称格式，关于存储桶命名规范，请参见 [存储桶命名规范](https://cloud.tencent.com/document/product/436/13312#.E5.AD.98.E5.82.A8.E6.A1.B6.E5.91.BD.E5.90.8D.E8.A7.84.E8.8C.83)。
-> - &lt;SecretId&gt; 和 &lt;SecretKey&gt;为密钥信息，您可前往访问管理控制台的 [云 API 密钥管理](https://console.cloud.tencent.com/cam/capi) 中查看和创建。
+> - &lt;SecretId&gt; 和 &lt;SecretKey&gt;为密钥信息，建议使用子账号密钥，授权遵循 [最小权限指引](https://cloud.tencent.com/document/product/436/38618)，降低使用风险。子账号密钥获取可参考 [子账号访问密钥管理](https://cloud.tencent.com/document/product/598/37140)。
 > - 您也可以将密钥配置在文件 $HOME/.passwd-cosfs 中，或通过 -opasswd_file=[path] 指定密钥文件路径，同时您需要将密钥文件的权限值设置为600。
 > 
 
@@ -210,7 +228,7 @@ cosfs examplebucket-1250000000 /mnt/cosfs -ourl=http://cos.ap-guangzhou.myqcloud
 ```
 
 >!
->- COSFS 工具为提升性能，默认使用系统盘存放上传、下载的临时缓存，文件关闭后会释放空间。在并发打开的文件数较多或者读写大文件的时候，COSFS 工具会尽量多的使用硬盘来提高性能，默认只保留 100MB 硬盘可用空间给其他程序使用，可以通过选项 oensure_diskfree=[size] 设置 COSFS 工具保留可用硬盘空间的大小，单位为 MB。例如`-oensure_diskfree=1024`，COSFS 工具会保留1024MB剩余空间。
+>- COSFS 工具为提升性能，默认使用系统盘存放上传、下载的临时缓存，文件关闭后会释放空间。在并发打开的文件数较多或者读写大文件的时候，COSFS 工具会尽量多的使用硬盘来提高性能，默认只保留 100MB 硬盘可用空间给其他程序使用，可以通过选项 oensure_diskfree=[size] 设置 COSFS 工具保留可用硬盘空间的大小，单位为 MB。例如 `-oensure_diskfree=1024`，COSFS 工具会保留1024MB剩余空间。
 >- V1.0.5及较早版本的 COSFS，挂载命令为 cosfs &lt;APPID>:&lt;BucketName> &lt;MountPoint> -ourl=&lt;CosDomainName> -oallow_other。
 >
 
@@ -251,13 +269,20 @@ cosfs examplebucket-1250000000 /mnt/cosfs -ourl=http://cos.ap-guangzhou.myqcloud
 该选项可以去除给定类型用户，对挂载目录内文件的操作权限。例如，-oumask=755，对应挂载目录的权限变为022。
 
 #### -ouid=[uid]
-该选项允许用户 id 为 [uid] 的用户不受挂载目录中文件权限位的限制，可以访问挂载目录中的所有文件。
-获取用户 uid 可以使用 id 命令，格式` id -u username`。例如执行`id -u user_00`，可获取到用户 user_00 的 uid。
+该选项允许用户 ID 为 [uid] 的用户不受挂载目录中文件权限位的限制，可以访问挂载目录中的所有文件。
+获取用户 uid 可以使用 ID 命令，格式 ` id -u username`。例如执行 `id -u user_00`，可获取到用户 user_00 的 uid。
 
 #### -oensure_diskfree=[size]
 
 COSFS 工具为提升性能，默认使用系统盘存放上传、下载的临时缓存，文件关闭后会释放空间。在并发打开的文件数较多或者读写大文件的时候，COSFS 工具会尽量多的使用硬盘来提高性能，默认只保留 100MB 硬盘可用空间给其他程序使用，可以通过选项 oensure_diskfree=[size] 设置 COSFS 工具保留可用硬盘空间的大小，单位为 MB。例如`-oensure_diskfree=1024`，COSFS 工具会保留1024MB剩余空间。
 
 
+<span id="faq"></span>
 ## 常见问题
-如果您在使用 COSFS 工具过程中有相关的疑问，请参见 [COSFS 工具类常见问题](https://cloud.tencent.com/document/product/436/30743)。
+
+下面提供了一些常见问题，如果您在使用 COSFS 工具过程中有其他疑问，请参见 [COSFS 工具类常见问题](https://cloud.tencent.com/document/product/436/30743)。
+
+- [COSFS 每天在某个时间段里 CPU 使用率较高，且向 COS 发出大量 Head、List 请求，产生大量请求次数费用，该怎么处理？](https://cloud.tencent.com/document/product/436/30743#.E5.AE.89.E8.A3.85-cosfs-rpm-.E5.8C.85.E6.97.B6.EF.BC.8C.E6.8F.90.E7.A4.BA-conflicts-with-file-from-package-fuse-libs-*.EF.BC.8C.E6.80.8E.E4.B9.88.E5.8A.9E.EF.BC.9F)
+- [在 COSFS 的目录中执行 ls 命令，为什么命令返回需要很久的时间？](https://cloud.tencent.com/document/product/436/30743#.E5.9C.A8-cosfs-.E7.9A.84.E7.9B.AE.E5.BD.95.E4.B8.AD.E6.89.A7.E8.A1.8C-ls-.E5.91.BD.E4.BB.A4.EF.BC.8C.E4.B8.BA.E4.BB.80.E4.B9.88.E5.91.BD.E4.BB.A4.E8.BF.94.E5.9B.9E.E9.9C.80.E8.A6.81.E5.BE.88.E4.B9.85.E7.9A.84.E6.97.B6.E9.97.B4.EF.BC.9F)
+
+

@@ -10,8 +10,8 @@ VNC 登录是腾讯云为用户提供的一种通过 Web 浏览器远程连接�
 - VNC 登录为独享终端，即同一时间只有一个用户可以使用 VNC 登录。
 
 ## 前提条件
-已获取登录实例的管理员帐号及密码。
-- 如在创建实例时选择系统随机生成密码，则请前往 [站内信](https://console.cloud.tencent.com/message) 获取。
+已获取登录实例的管理员账号及密码。
+- 如在创建实例时选择系统随机生成密码，则请前往 [站内信](https://console.cloud.tencent.com/message)（标有：云服务器创建成功字样） 获取。
 - 如已设置登录密码，则请使用该密码登录。如忘记密码，则请 [重置实例密码](https://cloud.tencent.com/document/product/213/16566)。
 
 
@@ -38,7 +38,6 @@ Linux 实例默认用户名为 `root`，Ubuntu 系统实例默认用户名为 `u
 5. 在 “Password” 后输入密码，按 **Enter**。
 输入的密码默认不显示，登录完成后，命令提示符左侧将显示当前登录云服务器的信息。如下图所示：
 ![](https://main.qcloudimg.com/raw/69bd64692fdaffc0cbbbdd0b9d307722.png)
-
 
 ## 后续操作
 

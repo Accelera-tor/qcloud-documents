@@ -1,4 +1,4 @@
-本文介绍通过 [Oceanus](https://cloud.tencent.com/product/oceanus) ETL 方式将外部数据源实时导入到云数据仓库 ClickHouse，支持的外部数据源有如下：
+本文介绍通过 [Oceanus](https://cloud.tencent.com/product/oceanus) ETL 方式将外部数据源实时导入到云数据仓库 ClickHouse，支持的外部数据源有如下： 
 
 <table>
 <thread>
@@ -109,7 +109,7 @@ ENGINE = CollapsingMergeTree(Sign)
 ORDER BY id
 ```
 
- - 若您到任务中不需要 update，可以通过 [MergeTree](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree/) 来实现。
+ - 若您的任务中不需要 update，可以通过 [MergeTree](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree/) 来实现。
 ```
 CREATE TABLE test.test ON CLUSTER default_cluster
 (

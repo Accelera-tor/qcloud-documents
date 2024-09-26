@@ -1,6 +1,9 @@
 ## 操作场景
-OneLogin 是一家云身份访问管理解决方案提供商，可以通过其身份认证系统一键登录企业内部所有需要的系统平台。腾讯云支持基于 SAML 2.0（安全断言标记语言 2.0）的联合身份验证，SAML 2.0 是 OneLogin 等许多身份验证提供商（Identity Provider，IdP）使用的一种开放标准。使用身份提供商可实现联合单点登录（Federated Single Sign-on，SSO），管理者可以授权通过联合身份验证的用户登录腾讯云管理控制台或调用腾讯云 API 操作，而不必为企业或组织中的每一个成员都创建一个 CAM 子用户。
+OneLogin 是一家云身份访问管理解决方案提供商，可以通过其身份认证系统一键登录企业内部所有需要的系统平台。腾讯云支持基于 SAML 2.0（安全断言标记语言 2.0）的联合身份验证，SAML 2.0 是 OneLogin 等许多身份验证提供商（Identity Provider，IdP）使用的一种开放标准。
+使用身份提供商可实现联合单点登录（Federated Single Sign-on，SSO），管理者可以授权通过联合身份验证的用户登录腾讯云管理控制台或调用腾讯云 API 操作，而不必为企业或组织中的每一个成员都创建一个 CAM 子用户。
+
 本教程为 OneLogin 单点登录至腾讯云的配置指南。
+
 ## 操作步骤
 ### 创建 OneLogin 企业应用程序
 >?
@@ -31,17 +34,32 @@ OneLogin 是一家云身份访问管理解决方案提供商，可以通过其�
 1. 在 [OneLogin 应用管理页](#app)，单击已创建的 “test” 应用，跳转至应用编辑页。
 2. 选择 **Configuration** 页签，输入以下内容，单击 **SAVE**。如下图所示：
 ![](https://main.qcloudimg.com/raw/2211da7f372415f536a81795d3a02207.png)
->?
-> - 如果您的腾讯云账号所在站点为中国站，请按照如下信息进行配置：
-SAML Consumer URL：https://cloud.tencent.com/login/saml
-SAML Audience：https://cloud.tencent.com
-SAML Recipient：https://cloud.tencent.com/login/saml
-> - 如果您的腾讯云账号所在站点为 International ，请按照如下信息进行配置：
-SAML Consumer URL：https://intl.cloud.tencent.com/login/saml
-SAML Audience：https://intl.cloud.tencent.com
-SAML Recipient：https://intl.cloud.tencent.com/login/saml
+
+您可以根据您的腾讯云账号所在站点进行配置：
+<table>
+    <tr>
+        <th>所在站点</th>
+        <th>SAML Consumer URL</th>
+				<th>SAML Audience</th>
+				<th>SAML Recipient</th>
+    </tr>
+    <tr>
+        <td>中国站</td>
+        <td>https://cloud.tencent.com/login/saml</td>
+				 <td>https://cloud.tencent.com</td>
+				  <td>https://cloud.tencent.com/login/saml</td>
+    </tr>
+    <tr>
+        <td>国际站</td>
+        <td>https://intl.cloud.tencent.com/login/saml</td>
+				 <td>	https://intl.cloud.tencent.com/login/saml</td>
+				  <td>https://intl.cloud.tencent.com/login/saml</td>
+    </tr>
+</table>
+
+>?SAML Recipient 为跳转的腾讯云页面，如您需要指定其他页面，可使用https://cloud.tencent.com/login/saml?s_url=xxxx 形式指定，其中 xxxx 为需要指定的地址，需要做 urlencode。
 >
-3. 单击 **Parameters**，选择 **Add parameter**，添加以下两条配置信息。
+3. 单击 **Parameters**，单击<image style="margin:0;" src="https://main.qcloudimg.com/raw/98a24d12696834b52f559d0abe490fd2.png">，添加以下两条配置信息。
 <table>
 	<tr>
 		<th>Field name</th>

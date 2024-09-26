@@ -42,11 +42,10 @@
 1. 请在 [SSL 证书管理控制台](https://console.cloud.tencent.com/ssl) 中选择您需要安装的证书并单击**下载**。
 2. 在弹出的 “证书下载” 窗口中，服务器类型选择 **JKS**，单击**下载**并解压缩 `cloud.tencent.com` 证书文件包到本地目录。
 解压缩后，可获得相关类型的证书文件。其中包含 `cloud.tencent.com_jks` 文件夹：
- - **文件夹名称**：`cloud.tencent.com_jks`
- - **文件夹内容**：
-    - `cloud.tencent.com.jks` 密钥库
-    - `cloud.tencent.com.key` 私钥文件
-    - `keystorePass.txt` 密码文件（若已设置私钥密码，则无 `keystorePass.txt` 密码文件）
+   - **文件夹名称**：`cloud.tencent.com_jks`
+   - **文件夹内容**：
+     - `cloud.tencent.com.jks` 密钥库
+     - `keystorePass.txt` 密码文件（若已设置私钥密码，则无 `keystorePass.txt` 密码文件）
 3. 将已获取到的 `cloud.tencent.com.jks` 密钥库文件拷贝至 Tomcat 安装目录 `conf` 目录下。如下图所示：
 ![](https://qcloudimg.tencent-cloud.cn/raw/aeeb63eef0e23d82fe2345ca49436e47.png)
 4. 编辑在 `conf` 目录下的 `server.xml` 文件。添加如下内容：
@@ -105,7 +104,7 @@
  - **keystoreFile**：密钥库文件的存放位置，可以指定绝对路径，也可以指定相对于 &lt;CATALINA_HOME&gt; （Tomcat 安装目录）环境变量的相对路径。如果此项没有设定，默认情况下，Tomcat 将从当前操作系统用户的用户目录下读取名为 “.keystore” 的文件。
  - **keystorePass**：密钥库密码，指定 keystore 的密码。申请证书时若设置了私钥密码，请填写私钥密码；若申请证书时未设置私钥密码，请填写 Tomcat 文件夹中 keystorePass.txt 文件的密码。
  - **clientAuth**：如果设为 true，表示 Tomcat 要求所有的 SSL 客户出示安全证书，对 SSL 客户进行身份验证。
-7. 确认 Tomcat 服务器是否启动。
+5. 确认 Tomcat 服务器是否启动。
    - 若已启动，您需要在 Tomcat 安装目录 `bin` 目录下依次执行以下 bat 脚本，关闭和重启 Tomcat 服务。
 ```
 shutdown.bat  (关闭 Tomcat 服务器)
@@ -115,7 +114,16 @@ startup.bat  (启动 Tomcat 服务器)
  ```
 startup.bat
 ```
-8. 若启动成功，即可使用 `https://cloud.tencent.com` 进行访问。
+6. 若启动成功，即可使用 `https://cloud.tencent.com` 进行访问。
+ - 如果浏览器地址栏显示安全锁标识，则说明证书安装成功。如下图所示：
+![](https://qcloudimg.tencent-cloud.cn/raw/45d7e33dd41abb06087edda4871222b5.png)
+ - 如果网站访问异常，可参考以下常见问题解决方案进行处理：
+    - [无法使用 HTTPS 访问网站](https://cloud.tencent.com/document/product/400/53650)
+    - [部署 SSL 证书后，浏览器提示 “网站连接不安全”](https://cloud.tencent.com/document/product/400/56830)
+    - [访问站点提示连接不安全？](https://cloud.tencent.com/document/product/400/5366)
+    - [SSL 证书过期后重新申请部署依然提示 HTTPS 不安全？](https://cloud.tencent.com/document/product/400/65727)
+    - [在服务器上部署 SSL 证书后访问资源出现 404 报错](https://cloud.tencent.com/document/product/400/53651)
+
 
 ### HTTP 自动跳转 HTTPS 的安全配置（可选）
 

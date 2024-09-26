@@ -23,7 +23,7 @@
 1. 在“弹性网卡”页面，单击 <img src="https://main.qcloudimg.com/raw/57a0c76b72cd97bd80bf857cd30c867a.png" style="margin: 0;">，以展开绑定的辅助网卡信息。
 ![](https://main.qcloudimg.com/raw/5032fdfa89ef927aadf89ef03fe997ba.png)
 2. 在分配的 IP 的“已绑定公网 IP”栏下，单击**绑定**，分别为分配的 IP 绑定 EIP。
-3. 在弹出的“绑定弹性公网IP”窗口中：
+3. 在弹出的“绑定弹性公网 IP”窗口中：
  - 若有可选的 EIP，选中并单击**确定**即可。
  - 若无可选的 EIP，可单击弹框上方的**新建**进行申请，详情请参见 [申请 EIP](https://cloud.tencent.com/document/product/1199/41698)，申请成功后返回弹出框并单击**刷新**，即可看见申请的 EIP，选中并单击**确定**即可。
 ![](https://main.qcloudimg.com/raw/a31ebe5ad4ac8bc6924af36279e2eb63.png)
@@ -125,7 +125,7 @@ cp ifcfg-eth0 ifcfg-eth1
    3. 按 “i” 切换至编辑模式，把配置文件内容修改为以下内容：
 ```
 DEVICE='eth1' # 此处填写步骤1中查看到的需配置的弹性网卡名称，请根据实际填写
- NM_CONTROLLED='yes'
+ NM_CONTROLLED='no'
  ONBOOT='yes'
  # 配置主ip
 IPADDR0=10.0.0.7 # 此处填写步骤一：添加辅助网卡中手动填写的主 IP，请根据实际填写
@@ -137,7 +137,7 @@ NETMASK1=255.255.255.0 # 此处填写步骤三中所记录的子网掩码，请�
 ```
 修改后，示例如下：
 ![](https://main.qcloudimg.com/raw/14c849d0031c859e2f65abc1f7862d02.png)
-  4. 修改后保存配置文件并退出（在 vim 的末行模式下按 “Esc”，输入 “`wq!`” 并回车）。
+  4. 修改后保存配置文件并退出（在 vim 的运行模式下按 “Esc”，输入 “`wq!`” 并回车）。
 7. 输入如下命令重启网络服务。
 ```
 systemctl restart network
@@ -156,7 +156,7 @@ ip addr
 systemctl restart network
 ```
 9. 根据业务实际情况配置路由策略。
-    按照上述步骤配置好后，Linux 镜像依旧默认从主网卡发包。您可通过策略路由来指定报文从某个网卡进，并从该网卡返回。
+    按照上述步骤配置好后，Linux 镜像依旧默认从主网卡发包。您可通过策略路由来指定报文从某个网卡进入，并从该网卡返回。
  1. 创建两张路由表<span id="6.1">。
 ``` 
 echo "10 t1" >> /etc/iproute2/rt_tables

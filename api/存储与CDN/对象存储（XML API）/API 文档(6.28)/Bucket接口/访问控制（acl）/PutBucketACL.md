@@ -4,7 +4,7 @@ PUT Bucket acl 接口用来写入存储桶的访问控制列表（ACL），您�
 >!
 >- 通过请求头设置 ACL 和通过请求体设置 ACL 两种方式只能选择其中一种。
 >- PUT Bucket acl 是一个覆盖操作，传入新的 ACL 将覆盖原有 ACL。
->- 仅可对腾讯云 CAM 主账号或匿名用户授予权限，如需授予子用户或用户组权限请使用 [PUT Bucket policy](https://cloud.tencent.com/document/product/436/8282) 接口。有关 ACL 的详细说明，请参见 [ACL 概述](https://cloud.tencent.com/document/product/436/30752)。
+>- 支持对腾讯云 CAM 主账号、匿名用户、子用户授予权限，如需授予用户组权限请参见 [为用户组添加/解除策略](https://cloud.tencent.com/document/product/598/37299)。有关 ACL 的详细说明，请参见 [ACL 概述](https://cloud.tencent.com/document/product/436/30752)。
 >- 该 API 的请求者需要对存储桶有写入 ACL 权限。
 >
 
@@ -64,14 +64,15 @@ Authorization: Auth String
 
 此接口除使用公共请求头部外，还支持以下请求头部，了解公共请求头部详情请参见 [公共请求头部](https://cloud.tencent.com/document/product/436/7728) 文档。
 
-名称|描述|类型|是否必选
----|---|---|---
-x-cos-acl|定义存储桶的访问控制列表（ACL）属性。枚举值请参见 [ACL 概述](https://cloud.tencent.com/document/product/436/30752#.E9.A2.84.E8.AE.BE.E7.9A.84-acl) 文档中存储桶的预设 ACL 部分，如 private, public-read 等，默认为 private|Enum|否
-x-cos-grant-read|赋予被授权者读取存储桶的权限，格式为 id="[OwnerUin]"，如 id="100000000001"，可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`|string|否
-x-cos-grant-write|赋予被授权者写入存储桶的权限，格式为 id="[OwnerUin]"，如 id="100000000001"，可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`|string|否
-x-cos-grant-read-acp|赋予被授权者读取存储桶的访问控制列表（ACL）的权限，格式为 id="[OwnerUin]"，如 id="100000000001"，可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`|string|否
-x-cos-grant-write-acp|赋予被授权者写入存储桶的访问控制列表（ACL）的权限，格式为 id="[OwnerUin]"，如 id="100000000001"，可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`|string|否
-x-cos-grant-full-control|赋予被授权者操作存储桶的所有权限，格式为 id="[OwnerUin]"，如 id="100000000001"，可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`|string|否
+| 名称                     | 描述                                                         | 类型   | 是否必选 |
+| :----------------------- | :----------------------------------------------------------- | :----- | :------- |
+| x-cos-acl                | 定义存储桶的访问控制列表（ACL）属性。枚举值请参见 [ACL 概述](https://cloud.tencent.com/document/product/436/30752#.E9.A2.84.E8.AE.BE.E7.9A.84-acl) 文档中存储桶的预设 ACL 部分，例如 private, public-read 等，默认为 private | Enum   | 否       |
+| x-cos-grant-read         | 赋予被授权者读取存储桶的权限。若被授权者为主账号，格式为 id="[OwnerUin]"，如 id="100000000001"；若被授权者为子账号，格式为 id="[OwnerUin/GrantsUin]"，如 id="100000000001/100000000011"。可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"` | string | 否       |
+| x-cos-grant-write        | 赋予被授权者写入存储桶的权限。若被授权者为主账号，格式为 id="[OwnerUin]"，如 id="100000000001"；若被授权者为子账号，格式为 id="[OwnerUin/GrantsUin]"，如 id="100000000001/100000000011"。可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"` | string | 否       |
+| x-cos-grant-read-acp     | 赋予被授权者读取存储桶的访问控制列表（ACL）的权限。若被授权者为主账号，格式为 id="[OwnerUin]"，如 id="100000000001"；若被授权者为子账号，格式为 id="[OwnerUin/GrantsUin]"，如 id="100000000001/100000000011"。可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"` | string | 否       |
+| x-cos-grant-write-acp    | 赋予被授权者写入存储桶的访问控制列表（ACL）的权限。若被授权者为主账号，格式为 id="[OwnerUin]"，如 id="100000000001"；若被授权者为子账号，格式为 id="[OwnerUin/GrantsUin]"，如 id="100000000001/100000000011"。可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"` | string | 否       |
+| x-cos-grant-full-control | 赋予被授权者操作存储桶的所有权限。若被授权者为主账号，格式为 id="[OwnerUin]"，如 id="100000000001"；若被授权者为子账号，格式为 id="[OwnerUin/GrantsUin]"，如 id="100000000001/100000000011"。可使用半角逗号（,）分隔多组被授权者，如 `id="100000000001",id="100000000002"`| string | 否       |
+
 
 #### 请求体
 

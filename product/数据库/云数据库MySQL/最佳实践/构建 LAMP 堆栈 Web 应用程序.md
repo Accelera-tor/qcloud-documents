@@ -1,4 +1,3 @@
-
 LAMP 指 Linux+Apache+Mysql/MariaDB+Perl/PHP/Python，是一组常用来搭建动态网站或者服务器的开源软件。程序都是独立的，但是因为常被一起使用，相互间的兼容性越来越高，共同组成了一个强大的 Web 应用程序平台。
 本教程将指导您完成以下过程：启动一个腾讯云数据库实例，通过腾讯云服务器配置一个 LAMP 应用程序，用以连接腾讯云数据库实例的高可用性环境。
 运行腾讯云数据库实例会将数据库与环境的生命周期分离，这让您可以从多个服务器连接到同一个数据库，并且简化数据库的运维，让您无需再关心数据库的安装、部署、版本更新及故障处理等问题。
@@ -16,12 +15,12 @@ LAMP 指 Linux+Apache+Mysql/MariaDB+Perl/PHP/Python，是一组常用来搭建�
 ```
 yum install mysql -y
 ```
-![](//mc.qcloudimg.com/static/img/8b952d6d7d767413a6558e82df092d44/image.png)
+![](https://qcloudimg.tencent-cloud.cn/raw/c6da1faf909c324d80dd4efefd5d1733.png)
 2. 安装完成后，连接到腾讯云数据库实例。
 ```
 mysql -h hostname -u username -p
 ```
-![](//mc.qcloudimg.com/static/img/297856a53959582220b9bba6f06ce9f6/image.png)
+![](https://qcloudimg.tencent-cloud.cn/raw/2358c9af9e976fe69cb4724fe4704401.png)
 其中，hostname 为数据库实例的内网 IP 地址，username 为您的数据库用户名。
 3. 连接成功后，即可退出数据库，进行下一步操作。
 ```

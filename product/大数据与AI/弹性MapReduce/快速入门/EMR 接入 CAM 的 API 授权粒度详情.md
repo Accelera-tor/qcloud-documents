@@ -1,7 +1,7 @@
 ## 支持资源级授权的 API 列表
 EMR 支持资源级授权，您可以指定子账号拥有特定资源的接口权限。
 
->!不排除后续接口新增时出现操作报错，如遇到权限报错情况，可根据报错提示缺少对应接口权限进行策略中补充。
+>!不排除后续接口新增时出现操作报错，如遇到权限报错情况，可根据报错提示在策略中补充缺少的对应接口权限。
 
 支持资源级授权的接口列表如下：
 <table>
@@ -506,8 +506,230 @@ EMR 支持资源级授权，您可以指定子账号拥有特定资源的接口�
 <td >查询导出配置</td>
 <td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
 </tr>
+<tr>
+<td >CheckDiskInfo</td>
+<td >检测控制台磁盘元数据是否更新</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >SyncDiskInfo</td>
+<td >控制台磁盘元数据更新</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >DescribeServiceConfsNew</td>
+<td >获取组件配置信息（配置管理页）</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >DescribeConfFileList</td>
+<td > 获取配置文件列表（配置管理页）</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >DescribeServiceConfCategories</td>
+<td > 获取组件配置类别（配置管理页）</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >DescribeServiceConfDiff</td>
+<td > 配置比对（配置管理页）</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td >DescribeConfigGroupList</td>
+<td > 查询节点类型的配置组信息</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr><tr>
+<td >DescribeHbaseStatus</td>
+<td > DescribeHbaseStatus 信息展示</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr><tr>
+<td >ModifyHbaseRit</td>
+<td >	修复 hbaserit</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr><tr>
+<td >TerminateSparkApp</td>
+<td >	结束 spark 作业</td>
+<td >emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr><tr>
+<td >DescribeAccessKey</td>
+<td >	获取集群 AccessKey</td>
+<td >	emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeAttachableDisks</td>
+<td>查询节点支持额外挂载的云盘</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>InquirePriceRenewDisks</td>
+<td>云盘续费询价</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>AttachDisks</td>
+<td>云盘挂载</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeNodeDataDisks</td>
+<td>查询节点数据盘信息</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>InquirePriceResizeDisks</td>
+<td>云盘扩容询价</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ResizeDataDisks</td>
+<td>云盘扩容</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyAutoRenewFlag</td>
+<td>自动续费</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ScaleOutCluster</td>
+<td>扩容集群节点</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>StartStopServiceOrMonitor</td>
+<td>用于启动或停止监控或服务</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeClusterClients</td>
+<td>客户端信息查看页面</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeDelayedServiceConfig</td>
+<td>获取过期配置（配置管理页）</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeFailedServiceConfig</td>
+<td>获取失败配置（配置管理页）</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeServiceConfDimensionDiff</td>
+<td>获取全维度配置差异比对结果（配置管理页）</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyEmrManagerAgent</td>
+<td>EMR Manager Agent 更新</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyServiceConfDiff</td>
+<td>差异配置覆盖（配置管理）</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyYarnLabelState</td>
+<td>下发添加、删除、绑定标签的指令</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeYarnScheduleHistory</td>
+<td>查看 yarn 资源调度的调度历史</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeYarnDeployMessage</td>
+<td>部署生效-提示信息</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyYarnDeploy</td>
+<td>部署生效</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeParentLabels</td>
+<td>获取父队列的标签列表</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeYarnLastestLabels</td>
+<td>获取最新的标签信息</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyYarnLabels</td>
+<td>同步 yarn 节点标签</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyYarnQueue</td>
+<td>修改资源调度中资源池</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyOldLabelConfig</td>
+<td>取消保存 yarn 标签管理的编辑内容</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeNodeLabelWebUrl</td>
+<td>获取 yarn 的 node label 的 web url</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeNodeManagerHosts</td>
+<td>资源调度-标签管理-nodemanager IP 列表</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyGlobalScaleConf</td>
+<td>集群扩缩容配置，是否开启伸缩及伸缩类型</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeGlobalScaleConf</td>
+<td>获取集群的扩缩容配置，包含是否开启伸缩及伸缩类型</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>ModifyManagedScaleGlobalConf</td>
+<td>更新托管伸缩全局配置</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeManagedScaleGlobalConf</td>
+<td>获取托管伸缩全局配置</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeServiceComponentInfos</td>
+<td>描述容器集群角色信息</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DescribeRssClusterList</td>
+<td>当前 Spark 集群同一 eks 的 Rss 集群</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>CreateSparkLinkRss</td>
+<td>CreateSparkLinkRss spark 关联 rss</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
+<tr>
+<td>DeleteSparkLinkRss</td>
+<td>DeleteSparkLinkRss 取消关联 rss</td>
+<td>emr-instance|qcs::emr:${region}:uin/${uin}:emr-instance/$emrInstanceId</td>
+</tr>
 </tbody>
 </table>
+
 
 ## 支持接口级授权的 API 列表
 <table>
@@ -675,7 +897,24 @@ EMR 支持资源级授权，您可以指定子账号拥有特定资源的接口�
 <td >AddServiceRoleInstance</td>
 <td >添加角色实例</td>
 </tr>
+<tr>
+<td >ModifyResourcesTags</td>
+<td >强制修改标签</td>
+</tr><tr>
+<td >CreateCluster</td>
+<td >创建集群</td>
+</tr>
+<tr>
+<td >RepairDisk</td>
+<td >客户坏盘在 CVM 侧完成换盘修复后，可使用该接口完成业务修复</td>
+</tr><tr>
+<td >CreateOutsideClient</td>
+<td >对于 EMR 集群外的机器提供组件包及部署脚本来支持体外机器对 EMR 访问及提交任务</td>
+</tr><tr>
+<td >ModifyCvmReplaceFlag</td>
+<td >修改 EMR 集群支持异常节点补偿开关属性</td>
+</tr>
 </tbody>
 </table>
 
-资源级和接口级别具体授权方案详见：[授权粒度方案](https://tcloud-doc.isd.com/document/product/589/66673)。
+资源级和接口级别具体授权方案详见：[授权粒度方案](https://cloud.tencent.com/document/product/589/66673)。

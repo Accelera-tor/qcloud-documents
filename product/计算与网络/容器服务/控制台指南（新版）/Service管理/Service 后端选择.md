@@ -6,8 +6,9 @@
 
 `TKE Service Controller` 默认不会将以下节点作为负载均衡后端：
 - Master 节点（不允许 Master 节点参与网络接入层的负载）。
-- 节点状态为 NotReady 或节点被设置为 Unschedulable（节点不健康或不可调度）。
+- 节点状态为 NotReady （节点不健康）。
 
+>! `TKE Service Controller` 可以绑定状态为 Unschedulable 的节点。Unschedulable 的节点也可以作为流量的入口，因为流量进入到节点之后，会再做一层容器网络里的流量转发，流量在 Unschedulable 的节点里面不会被丢弃，如上图所示。
 
 
 ## 指定接入层后端
@@ -23,12 +24,12 @@
 - 新增符合要求的节点或变更存量节点也会触发 controller 更新。
 
 
-### 使用场景
+### 使用场景 
 #### 大规模集群下的测试应用
 在一个大规模集群下，部署一个仅包含一两个 Pod 的测试应用。通过 Service 进行服务暴露时，负载均衡将对所有的后端 NodePort 进行健康检查，此健康检查的请求量对测试应用有很大影响。此时可以在集群中通过 Label 指定一小部分节点作为后端，缓解健康检查带来的压力。详情请参见 [关于健康检查探测频率过高的说明](https://cloud.tencent.com/document/product/214/3394#.E5.81.A5.E5.BA.B7.E6.A3.80.E6.9F.A5.E6.8E.A2.E6.B5.8B.E9.A2.91.E7.8E.87.E8.BF.87.E9.AB.98)。
 
 ### 示例
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -66,7 +67,7 @@ Kubernetes 提供了 Service 特性 `ExternalTrafficPolicy`。当 `ExternalTraff
 
 
 #### 示例：Service 开启 Local 转发（externalTrafficPolicy: Local）
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -88,7 +89,7 @@ spec:
 默认情况下，当 Service 开启 Local 模式之后，仍会按默认方式挂载几乎所有节点的 NodePort 作为后端。负载均衡会根据健康检查的结果，避免流量进入没有工作负载的后端节点。为了避免这些没有工作负载的后端被绑定，用户可以通过 `service.kubernetes.io/local-svc-only-bind-node-with-pod: "true"` 注解，在 Local 模式下指定绑定有工作负载节点作为后端。更多信息请参考 [Kubernetes Service Local](https://kubernetes.io/zh/docs/tutorials/services/source-ip/)。
 
 #### 示例：Service 开启 Local 转发并开启 Local 绑定
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -110,7 +111,7 @@ spec:
 由于 Local 模式下，进入节点的请求流量不会在节点间转发。所以当节点上的工作负载数量不一致的时候，同样的后端权重可能会使得每一个节点上的负载不平均。此时用户可以通过 `service.cloud.tencent.com/local-svc-weighted-balance: "true"` 进行加权平衡。使用此注解时，NodePort 后端的权重将由节点上工作负载的数量决定，从而避免不同节点上工作负载数量不同带来的负载不均的问题。其中，**Local 加权平衡必须和 Local 绑定同时使用**。示例如下：
 
 #### 示例：Service 开启 Local 转发，并开启 Local 绑定与 Local 加权平衡
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:

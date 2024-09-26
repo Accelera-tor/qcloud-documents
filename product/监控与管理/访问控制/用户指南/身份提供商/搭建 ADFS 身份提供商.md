@@ -2,7 +2,7 @@
 Active Directory Federation Services（ADFS）是 Microsoft's 推出的 Windows Server 活动目录联合服务 (ADFS). ADFS是一种能够用于一次会话过程中多个Web应用用户认证的新技术。腾讯云支持基于 SAML 2.0（安全断言标记语言 2.0）的联合身份验证，SAML 2.0 是许多身份验证提供商（Identity Provider， IdP）使用的一种开放标准。您可以通过基于 SAML 2.0 联合身份验证将 ADFS 与腾讯云进行集成，从而实现 ADFS 帐户自动登录（单一登录）腾讯云控制台管理腾讯云的资源，不必为企业或组织中的每一个成员都创建一个 CAM 子用户。
 ## 前提条件
 - 拥有一台 Windows Server 云服务器。如您需要购买服务器，请参阅 [云服务器-购买指南](https://cloud.tencent.com/document/product/213/2179)。
-- 已进入服务器管理-仪表板页面。
+- 已进入服务器管理-仪表板页面，找到电脑中的添加角色和功能向导（ 参考 [安装或卸载角色、角色服务或功能](https://docs.microsoft.com/zh-cn/windows-server/administration/server-manager/install-or-uninstall-roles-role-services-or-features#install-roles-role-services-and-features-by-using-the-add-roles-and-features-wizard)）。
 - 拥有一个已完成实名认证的域名。如您需要购买域名，请参阅 [域名-购买指南](https://cloud.tencent.com/document/product/242/18873)。
 
 ## 操作步骤
@@ -42,7 +42,7 @@ Active Directory Federation Services（ADFS）是 Microsoft's 推出的 Windows 
 ![](https://main.qcloudimg.com/raw/ab888353e868ee66f7a3918c9adbfa09.png)
 
 5. 在自定义请求页面，选择以下信息，如下图所示：
- - 模板：（无模板）就密钥
+ - 模板：（无模板）旧密钥
  - 请求格式：PKCS#10
 ![](https://main.qcloudimg.com/raw/df77e6971de87168df55694ab293807d.png)
 6. 单击**详细信息**>**证书属性**，在常规栏补充友好名称、描述信息。如下图所示：
@@ -86,7 +86,7 @@ Active Directory Federation Services（ADFS）是 Microsoft's 推出的 Windows 
 7. 选择 [步骤5](#step5) 保存的证书文件，保持页面默认信息，一直单击**下一步**>**完成**。
 8. 参考申请证书的 [步骤3](#step3)，右键单击**个人**，单击**所有任务**>**导出**。如下图所示：
 ![](https://main.qcloudimg.com/raw/460d0c31c83acc14e4b80a708bf994e4.png)
-9.在证书导出向导页面，选择“是，导出私钥”，勾选“组或用户名（建议）”，单击下一步，完成导出保存文件。<span id="step9">如下图所示：
+9.在证书导出向导页面，选择“是，导出私钥”，勾选“组或用户名（建议）”，一直单击下一步，完成导出保存文件。<span id="step9">如下图所示：
 ![](https://main.qcloudimg.com/raw/c35cd7d547864b496ba063ff4c332666.png)
 ![](https://main.qcloudimg.com/raw/febcb2723b415cab110bac765ecde927.png)
 
@@ -169,8 +169,8 @@ https://cloud.tencent.com/saml.xml
 5. 导入腾讯云身份提供商的文件。如下图所示：
 ![](https://main.qcloudimg.com/raw/acecf94a4147dc77c7ade97bd2c98f12.png)
 6. 保持页面默认信息，一直单击**下一步**>**完成**。
-7. 单击**信赖方信任**>**添加规则**>**编辑声明颁发策略**。如下图所示：
-![](https://main.qcloudimg.com/raw/1c34a7e2622257c74c7b6826e0c69d25.png)
+7. 单击**信赖方信任**>**单击编辑声明规则**>**添加规则**。如下图所示：
+![](https://qcloudimg.tencent-cloud.cn/raw/5354f193a7e0e9883f2f068fe158c924.png)
 8. 在添加转换声明规则向导页面，单击**选择规则类型**>**转换传入声明**>**下一步**。如下图所示：
 ![](https://main.qcloudimg.com/raw/cc5c6d362bbc8efe10dd63e90948ef3b.png)
 9. 在编辑规则页面，补充规则信息，单击**确定**。如下图所示：
